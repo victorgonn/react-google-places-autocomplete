@@ -9,6 +9,21 @@ import GooglePlacesAutocompleteProps, {
 import autocompletionRequestBuilder from './helpers/autocompletionRequestBuilder';
 import { Loader } from '@googlemaps/js-api-loader';
 
+export const SelectStyles = {
+  control: (base: any, state: any) => ({
+      ...base,
+      border: '0 !important',
+      borderBottom: state.isFocused ? '1px solid #3f51b5 !important' : '1px solid !important',
+      borderRadius: 0,
+      boxShadow: 'none'
+  }),
+  menuPortal: (base: any) => ({ ...base, zIndex: 9999 }),
+  valueContainer: (base: any) => ({
+      ...base,
+      padding: '2px 0px'
+  })
+};
+
 const GooglePlacesAutocomplete: React.ForwardRefRenderFunction<GooglePlacesAutocompleteHandle, GooglePlacesAutocompleteProps> = ({
   apiKey = '',
   apiOptions = {},
@@ -19,6 +34,7 @@ const GooglePlacesAutocomplete: React.ForwardRefRenderFunction<GooglePlacesAutoc
   onLoadFailed = console.error,
   withSessionToken = false,
 } : GooglePlacesAutocompleteProps, ref) : React.ReactElement => {
+  //const [isFocused, setIsFocused] = useState(false);
   const [placesService, setPlacesService] = useState<google.maps.places.AutocompleteService | undefined>(undefined);
   const [sessionToken, setSessionToken] = useState<google.maps.places.AutocompleteSessionToken | undefined>(undefined);
   const [fetchSuggestions] = useDebouncedCallback((value: string, cb: (options: OptionsType<OptionTypeBase>) => void): void => {
@@ -72,9 +88,23 @@ const GooglePlacesAutocomplete: React.ForwardRefRenderFunction<GooglePlacesAutoc
     else initializeService();
   }, []);
 
+  const handleFocus = () => {
+    //setIsFocused(true);
+    console.log("focused")
+  }
+
+  const handleBlur = () => {
+    //setIsFocused(false);
+    console.log("not! focused")
+  }
+
   return (
     <AsyncSelect
       {...selectProps}
+      styles={SelectStyles}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      menuPortalTarget={document.body}
       loadOptions={fetchSuggestions}
       getOptionValue={({ value }) => value.place_id}
     />

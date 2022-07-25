@@ -7,11 +7,11 @@
   "scripts": {
     "build": "rollup -c",
     "postbuild": "node ./build-utils/postBuild",
-    "lint": "eslint . --ext ts,tsx ."
+    "lint": "tsc && eslint \"src/**/*.{js,ts,tsx}\" --quiet --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "npm run lint"
     }
   },
   "repository": {
