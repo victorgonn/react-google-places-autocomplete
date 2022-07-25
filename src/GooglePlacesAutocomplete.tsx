@@ -9,7 +9,7 @@ import GooglePlacesAutocompleteProps, {
 import autocompletionRequestBuilder from './helpers/autocompletionRequestBuilder';
 import { Loader } from '@googlemaps/js-api-loader';
 
-export const SelectStyles = {
+const SelectStyles = {
   control: (base: any, state: any) => ({
       ...base,
       border: '0 !important',
